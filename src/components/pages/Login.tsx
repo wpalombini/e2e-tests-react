@@ -1,16 +1,19 @@
 import { Button } from '@material-ui/core';
 import React, { Fragment, useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import { UXContext } from '../../providers/UXProvider';
 
 const LoginPage: () => JSX.Element = (): JSX.Element => {
   const { setIsLoggedIn } = useContext(UXContext);
   const history = useHistory();
+  const location = useLocation();
+
+  const { from }: any = location.state || { from: { pathname: '/' } };
 
   const handleLogin: () => void = (): void => {
     setIsLoggedIn(true);
 
-    history.push('/private/account');
+    history.replace(from);
   };
 
   return (

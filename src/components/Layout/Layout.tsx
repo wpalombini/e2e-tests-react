@@ -9,6 +9,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import { Container } from '@material-ui/core';
 import { UXContext } from '../../providers/UXProvider';
 import LoginPage from '../pages/Login';
+import PrivateRoute from '../HOC/PrivateRoute';
 
 const Layout: () => JSX.Element = (): JSX.Element => {
   const { isLoggedIn, isLoading } = useContext(UXContext);
@@ -20,9 +21,17 @@ const Layout: () => JSX.Element = (): JSX.Element => {
       <div style={{ height: '4px' }}>{isLoading && <LinearProgress color="secondary" />}</div>
       <Container maxWidth="md" className="container">
         <Switch>
-          <Route exact path="/" component={HomePage} />
-          {!isLoggedIn && <Route path="/login" component={LoginPage} />}
-          {isLoggedIn && <Route path="/private/account" component={AccountPage} />}
+          <Route exact path="/">
+            <HomePage />
+          </Route>
+          {!isLoggedIn && (
+            <Route path="/login">
+              <LoginPage />
+            </Route>
+          )}
+          <PrivateRoute path="/private/account">
+            <AccountPage />
+          </PrivateRoute>
           <Route path="*">
             <Redirect to="/" />
           </Route>

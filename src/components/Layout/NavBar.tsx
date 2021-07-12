@@ -32,6 +32,7 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
   const handleAuth: () => void = (): void => {
     if (isLoggedIn) {
       setIsLoggedIn(false);
+      history.push('/');
     } else {
       history.push('/login');
     }
