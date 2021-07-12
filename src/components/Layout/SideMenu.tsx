@@ -1,5 +1,5 @@
 import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles } from '@material-ui/core';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import { UXContext } from '../../providers/UXProvider';
 import { House, Info } from '@material-ui/icons';
@@ -34,24 +34,17 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
   ];
   const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
-  const uxContext = useContext(UXContext);
-
-  const history = useHistory();
+  const { isLoggedIn, isSideMenuOpen, setIsSideMenuOpen } = useContext(UXContext);
 
   useEffect(() => {
     const currentMenuItems = [...defaultMenuItems];
-
-    if (uxContext.isLoggedIn) {
+    if (isLoggedIn) {
       const menuItem = { title: 'Account Settings', url: '/private/account', icon: <Info /> };
       currentMenuItems.splice(1, 0, menuItem);
     }
 
     setMenuItems(currentMenuItems);
-
-    if (!uxContext.isLoggedIn) {
-      history.push('/');
-    }
-  }, [uxContext.isLoggedIn]);
+  }, [isLoggedIn]);
 
   const toggleSideMenu: () => (event: React.KeyboardEvent | React.MouseEvent) => void =
     () => (event: React.KeyboardEvent | React.MouseEvent) => {
@@ -61,11 +54,11 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
       ) {
         return;
       }
-      uxContext.setIsSideMenuOpen(!uxContext.isSideMenuOpen);
+      setIsSideMenuOpen(!isSideMenuOpen);
     };
 
   return (
-    <Drawer anchor="left" open={uxContext.isSideMenuOpen} onClose={toggleSideMenu()}>
+    <Drawer anchor="left" open={isSideMenuOpen} onClose={toggleSideMenu()}>
       <div className={classes.header}>
         <h3>e2e Tests App</h3>
       </div>

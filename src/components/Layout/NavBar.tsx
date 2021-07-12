@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { UXContext } from '../../providers/UXProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -27,6 +27,15 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
   const classes = useStyles();
 
   const { isSideMenuOpen, setIsSideMenuOpen, isLoggedIn, setIsLoggedIn } = useContext(UXContext);
+  const history = useHistory();
+
+  const handleAuth: () => void = (): void => {
+    if (isLoggedIn) {
+      setIsLoggedIn(false);
+    } else {
+      history.push('/login');
+    }
+  };
 
   return (
     <div className={classes.root}>
@@ -44,7 +53,7 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
           <Typography variant="h6" className={classes.title}>
             <Link to="/">e2e Tests App</Link>
           </Typography>
-          <Button onClick={() => setIsLoggedIn(!isLoggedIn)} color="inherit" variant="outlined">
+          <Button onClick={handleAuth} color="inherit" variant="outlined">
             {isLoggedIn ? 'Logout' : 'Login'}
           </Button>
         </Toolbar>
