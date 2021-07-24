@@ -6,19 +6,31 @@ import HomePage from '../pages/Home';
 import NavBar from './NavBar';
 import SideMenu from './SideMenu';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import { Container } from '@material-ui/core';
+import { Container, Snackbar } from '@material-ui/core';
+import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { UXContext } from '../../providers/UXProvider';
 import LoginPage from '../pages/Login';
 import PrivateRoute from '../HOC/PrivateRoute';
 
+const Alert = (props: AlertProps) => {
+  return <MuiAlert elevation={6} variant="filled" {...props} />;
+};
+
 const Layout: () => JSX.Element = (): JSX.Element => {
-  const { isLoggedIn, isLoading } = useContext(UXContext);
+  const { isLoggedIn, isLoading, notification, setNotification } = useContext(UXContext);
 
   return (
     <Router>
       <NavBar />
       <SideMenu></SideMenu>
       <div style={{ height: '4px' }}>{isLoading && <LinearProgress color="secondary" />}</div>
+      <Snackbar open={notification !== null} autoHideDuration={5000} onClose={() => setNotification(null)}>
+        {notification ? (
+          <Alert onClose={() => setNotification(null)} severity={notification.type}>
+            {notification.message}
+          </Alert>
+        ) : undefined}
+      </Snackbar>
       <Container maxWidth="md" className="container">
         <Switch>
           <Route exact path="/">
