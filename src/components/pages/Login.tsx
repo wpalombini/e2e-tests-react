@@ -54,7 +54,7 @@ const LoginPage: () => JSX.Element = (): JSX.Element => {
 
   return (
     <Fragment>
-      <h3>Login Page</h3>
+      <h3 data-test="title-login-page">Login Page</h3>
       <form className={classes.root} noValidate autoComplete="off">
         <Grid container>
           <Grid item xs={12}>
@@ -63,10 +63,12 @@ const LoginPage: () => JSX.Element = (): JSX.Element => {
                 <Paper className={classes.paper}>
                   <TextField
                     onChange={(e) => setEmail(e.target.value)}
+                    type="email"
                     value={email}
                     label="Email"
                     fullWidth
                     variant="outlined"
+                    inputProps={{ 'data-test': 'email-input-field' }}
                   />
                   <TextField
                     onChange={(e) => setPassword(e.target.value)}
@@ -75,8 +77,9 @@ const LoginPage: () => JSX.Element = (): JSX.Element => {
                     label="Password"
                     fullWidth
                     variant="outlined"
+                    inputProps={{ 'data-test': 'password-input-field' }}
                   />
-                  <Button onClick={handleLogin} variant="outlined">
+                  <Button onClick={handleLogin} variant="outlined" data-test="login-button">
                     Login
                   </Button>
                 </Paper>

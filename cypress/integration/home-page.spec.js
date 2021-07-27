@@ -1,5 +1,7 @@
 /// <reference types="cypress" />
 
+import { byDataTest } from '../support/helper';
+
 describe('Home Page', () => {
   beforeEach(() => {
     cy.visit('/');
@@ -7,6 +9,6 @@ describe('Home Page', () => {
 
   it('navigates to home page', () => {
     cy.url().should('equal', 'http://localhost:3000/');
-    cy.get('[data-test="title-home-page"]').should('have.text', 'Home Page');
+    cy.get(byDataTest('title-home-page')).should('have.text', 'Home Page');
   });
 });
