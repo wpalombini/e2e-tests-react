@@ -48,13 +48,14 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
             className={classes.menuButton}
             color="inherit"
             aria-label="menu"
+            data-test="side-menu-button"
           >
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
             <Link to="/">e2e Tests App</Link>
           </Typography>
-          <Button onClick={handleAuth} color="inherit" variant="outlined">
+          <Button onClick={handleAuth} color="inherit" variant="outlined" data-test="navbar-login-button">
             {isLoggedIn ? 'Logout' : 'Login'}
           </Button>
         </Toolbar>

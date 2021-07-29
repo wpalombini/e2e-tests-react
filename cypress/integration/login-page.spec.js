@@ -3,6 +3,12 @@
 import { byDataTest } from '../support/helper';
 
 describe('Login Page', () => {
+  let loginTestData;
+
+  before(() => {
+    cy.fixture('login.json').then((data) => (loginTestData = data));
+  });
+
   beforeEach(() => {
     cy.visit('/login');
   });
@@ -30,7 +36,7 @@ describe('Login Page', () => {
     cy.get(byDataTest(attribute)).should('have.attr', 'type', 'button');
   });
 
-  it('displays error when login fails', () => {
+  it('displays error message when login fails', () => {
     const alertAttribute = 'alert';
     const loadingBarAttribute = 'loading-bar';
 
@@ -48,7 +54,27 @@ describe('Login Page', () => {
 
     cy.get(byDataTest(loadingBarAttribute)).should('not.exist');
 
-    cy.get(byDataTest(alertAttribute)).should('exist');
-    cy.get(byDataTest(alertAttribute)).contains('Invalid email or password').should('exist');
+    cy.get(byDataTest(alertAttribute)).should('exist').and('contain.text', 'Invalid email or password');
+  });
+
+  it('displays success message when login succeeds', () => {
+    const alertAttribute = 'alert';
+    const loadingBarAttribute = 'loading-bar';
+
+    cy.get(byDataTest(loadingBarAttribute)).should('not.exist');
+    cy.get(byDataTest(alert)).should('not.exist');
+
+    cy.get(byDataTest('email-input-field')).type(loginTestData.email);
+    cy.get(byDataTest('password-input-field')).type(loginTestData.password);
+    cy.get(byDataTest('login-button')).click();
+
+    cy.get(byDataTest(loadingBarAttribute)).should('exist');
+
+    // fake network activity
+    cy.wait(2500);
+
+    cy.get(byDataTest(loadingBarAttribute)).should('not.exist');
+
+    cy.get(byDataTest(alertAttribute)).should('exist').and('contain.text', 'You are now logged in');
   });
 });

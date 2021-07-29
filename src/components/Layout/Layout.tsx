@@ -22,7 +22,7 @@ const Layout: () => JSX.Element = (): JSX.Element => {
   return (
     <Router>
       <NavBar />
-      <SideMenu></SideMenu>
+      <SideMenu />
       <div style={{ height: '4px' }}>{isLoading && <LinearProgress color="secondary" data-test="loading-bar" />}</div>
       <Snackbar open={notification !== null} autoHideDuration={5000} onClose={() => setNotification(null)}>
         {notification ? (

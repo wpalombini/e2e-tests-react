@@ -8,6 +8,7 @@ export interface IListItem {
   title: string;
   url: string;
   icon: JSX.Element;
+  testAttribute: string;
 }
 
 const useStyles = makeStyles({
@@ -30,8 +31,9 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
       title: 'Home',
       url: '/',
       icon: <House />,
+      testAttribute: 'side-menu-link-home',
     },
-  ];
+  ] as IListItem[];
   const [menuItems, setMenuItems] = useState(defaultMenuItems);
 
   const { isLoggedIn, isSideMenuOpen, setIsSideMenuOpen } = useContext(UXContext);
@@ -39,7 +41,12 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
   useEffect(() => {
     const currentMenuItems = [...defaultMenuItems];
     if (isLoggedIn) {
-      const menuItem = { title: 'Account Settings', url: '/private/account', icon: <Info /> };
+      const menuItem = {
+        title: 'Account Settings',
+        url: '/private/account',
+        icon: <Info />,
+        testAttribute: 'side-menu-link-account',
+      };
       currentMenuItems.splice(1, 0, menuItem);
     }
 
@@ -68,7 +75,7 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
         <List>
           {menuItems.map(
             (listItem: IListItem, index: number): JSX.Element => (
-              <Link className={classes.a} to={listItem.url} key={index}>
+              <Link className={classes.a} to={listItem.url} key={index} data-test={listItem.testAttribute}>
                 <ListItem button>
                   <ListItemIcon>{listItem.icon}</ListItemIcon>
                   <ListItemText primary={listItem.title} />
