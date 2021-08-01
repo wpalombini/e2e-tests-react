@@ -1,4 +1,5 @@
 import React, { createContext, ReactNode, useState } from 'react';
+import { AuthenticationService } from '../services/AuthenticationService';
 
 export enum NotificationType {
   Success = 'success',
@@ -21,6 +22,7 @@ export interface IUXContext {
   setIsLoggedIn: (val: boolean) => void;
   notification: UXNotification | null;
   setNotification: (notification: UXNotification | null) => void;
+  authenticationService: AuthenticationService;
 }
 
 export interface IUXProps {
@@ -44,6 +46,7 @@ export const UXProvider: (props: IUXProps) => JSX.Element = (props: IUXProps): J
     setIsLoggedIn: setIsLoggedIn,
     notification: notification,
     setNotification: setNotification,
+    authenticationService: AuthenticationService.getInstance(),
   };
 
   return <UXContext.Provider value={uxContext}>{props.children}</UXContext.Provider>;

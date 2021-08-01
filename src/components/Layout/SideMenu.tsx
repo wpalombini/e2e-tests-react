@@ -2,7 +2,7 @@ import { Divider, Drawer, List, ListItem, ListItemIcon, ListItemText, makeStyles
 import { Link } from 'react-router-dom';
 import React, { useContext, useEffect, useState } from 'react';
 import { UXContext } from '../../providers/UXProvider';
-import { House, Info } from '@material-ui/icons';
+import { House, Info, InfoSharp } from '@material-ui/icons';
 
 export interface IListItem {
   title: string;
@@ -32,6 +32,12 @@ const SideMenu: () => JSX.Element = (): JSX.Element => {
       url: '/',
       icon: <House />,
       testAttribute: 'side-menu-link-home',
+    },
+    {
+      title: 'About',
+      url: '/about',
+      icon: <InfoSharp />,
+      testAttribute: 'side-menu-link-about',
     },
   ] as IListItem[];
   const [menuItems, setMenuItems] = useState(defaultMenuItems);

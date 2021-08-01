@@ -11,6 +11,7 @@ import MuiAlert, { AlertProps } from '@material-ui/lab/Alert';
 import { UXContext } from '../../providers/UXProvider';
 import LoginPage from '../pages/Login';
 import PrivateRoute from '../HOC/PrivateRoute';
+import About from '../pages/About';
 
 const Alert = (props: AlertProps) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
@@ -35,6 +36,9 @@ const Layout: () => JSX.Element = (): JSX.Element => {
         <Switch>
           <Route exact path="/">
             <HomePage />
+          </Route>
+          <Route path="/about">
+            <About />
           </Route>
           {!isLoggedIn && (
             <Route path="/login">
