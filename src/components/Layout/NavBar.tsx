@@ -26,7 +26,8 @@ const useStyles = makeStyles((theme: Theme) =>
 const NavBar: () => JSX.Element = (): JSX.Element => {
   const classes = useStyles();
 
-  const { isSideMenuOpen, setIsSideMenuOpen, isLoggedIn, setIsLoggedIn } = useContext(UXContext);
+  const { isSideMenuOpen, setIsSideMenuOpen, isLoggedIn, setIsLoggedIn, setIsAuthenticationDialogOpen } =
+    useContext(UXContext);
   const history = useHistory();
 
   const handleAuth: () => void = (): void => {
@@ -34,7 +35,7 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
       setIsLoggedIn(false);
       history.push('/');
     } else {
-      history.push('/login');
+      setIsAuthenticationDialogOpen(true);
     }
   };
 

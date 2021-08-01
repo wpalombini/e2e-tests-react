@@ -14,6 +14,8 @@ export class UXNotification {
 }
 
 export interface IUXContext {
+  isAuthenticationDialogOpen: boolean;
+  setIsAuthenticationDialogOpen: (val: boolean) => void;
   isSideMenuOpen: boolean;
   setIsSideMenuOpen: (val: boolean) => void;
   isLoading: boolean;
@@ -32,12 +34,15 @@ export interface IUXProps {
 export const UXContext = createContext<IUXContext>({} as IUXContext);
 
 export const UXProvider: (props: IUXProps) => JSX.Element = (props: IUXProps): JSX.Element => {
+  const [isAuthenticationDialogOpen, setIsAuthenticationDialogOpen] = useState(false);
   const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [notification, setNotification] = useState<UXNotification | null>(null);
 
   const uxContext: IUXContext = {
+    isAuthenticationDialogOpen: isAuthenticationDialogOpen,
+    setIsAuthenticationDialogOpen: setIsAuthenticationDialogOpen,
     isSideMenuOpen: isSideMenuOpen,
     setIsSideMenuOpen: setIsSideMenuOpen,
     isLoading: isLoading,

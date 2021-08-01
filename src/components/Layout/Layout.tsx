@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Route, Redirect, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import './Layout.css';
 import AccountPage from '../pages/Account';
 import HomePage from '../pages/Home';
@@ -12,13 +12,14 @@ import { UXContext } from '../../providers/UXProvider';
 import LoginPage from '../pages/Login';
 import PrivateRoute from '../HOC/PrivateRoute';
 import About from '../pages/About';
+import AuthenticationDialog from '../Dialogs/AuthenticationDialog';
 
 const Alert = (props: AlertProps) => {
   return <MuiAlert elevation={6} variant="filled" {...props} />;
 };
 
 const Layout: () => JSX.Element = (): JSX.Element => {
-  const { isLoggedIn, isLoading, notification, setNotification } = useContext(UXContext);
+  const { isAuthenticationDialogOpen, isLoading, notification, setNotification } = useContext(UXContext);
 
   return (
     <Router>
@@ -40,11 +41,9 @@ const Layout: () => JSX.Element = (): JSX.Element => {
           <Route path="/about">
             <About />
           </Route>
-          {!isLoggedIn && (
-            <Route path="/login">
-              <LoginPage />
-            </Route>
-          )}
+          <Route path="/login">
+            <LoginPage />
+          </Route>
           <PrivateRoute path="/private/account">
             <AccountPage />
           </PrivateRoute>
@@ -53,6 +52,7 @@ const Layout: () => JSX.Element = (): JSX.Element => {
           </Route>
         </Switch>
       </Container>
+      <AuthenticationDialog isOpen={isAuthenticationDialogOpen} />
     </Router>
   );
 };
