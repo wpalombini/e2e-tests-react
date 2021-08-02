@@ -1,7 +1,7 @@
 import { Button, Dialog, Grid, makeStyles, Paper, TextField } from '@material-ui/core';
 import { Theme } from '@material-ui/core/styles';
 import { createStyles } from '@material-ui/styles';
-import React, { useContext, useState } from 'react';
+import React, { FormEvent, useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
 
@@ -43,7 +43,9 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
     }
   }, [props.isOpen]);
 
-  const handleLogin: () => void = (): void => {
+  const handleLogin: (e: FormEvent) => void = (e: FormEvent): void => {
+    e.preventDefault();
+
     setIsLoading(true);
 
     setTimeout(() => {
@@ -73,7 +75,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
 
   return (
     <Dialog onClose={handleOnClose} open={props.isOpen}>
-      <form className={classes.root} noValidate autoComplete="off">
+      <form onSubmit={(e) => handleLogin(e)} className={classes.root} noValidate autoComplete="off">
         <Grid container>
           <Grid item>
             <Grid container>
@@ -84,6 +86,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
                     type="email"
                     value={email}
                     label="Email"
+                    autoFocus={true}
                     fullWidth
                     variant="outlined"
                     inputProps={{ 'data-test': 'email-input-field' }}
@@ -97,7 +100,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
                     variant="outlined"
                     inputProps={{ 'data-test': 'password-input-field' }}
                   />
-                  <Button onClick={handleLogin} variant="outlined" data-test="login-button">
+                  <Button onClick={handleLogin} type="submit" variant="outlined" data-test="login-button">
                     Login
                   </Button>
                 </Paper>
