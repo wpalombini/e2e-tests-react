@@ -4,6 +4,7 @@ import { createStyles } from '@material-ui/styles';
 import React, { FormEvent, useContext, useState } from 'react';
 import { useEffect } from 'react';
 import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
+import Form from '../HOC/Form';
 
 export interface IAuthenticationDialogProps {
   isOpen: boolean;
@@ -75,7 +76,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
 
   return (
     <Dialog onClose={handleOnClose} open={props.isOpen}>
-      <form onSubmit={(e) => handleLogin(e)} className={classes.root} noValidate autoComplete="off">
+      <Form onSubmit={(e) => handleLogin(e)} className={classes.root}>
         <Grid container>
           <Grid item>
             <Grid container>
@@ -108,7 +109,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
             </Grid>
           </Grid>
         </Grid>
-      </form>
+      </Form>
     </Dialog>
   );
 };
