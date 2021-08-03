@@ -33,7 +33,7 @@ describe('Login Page', () => {
   it('has login button', () => {
     const attribute = 'login-button';
     cy.get(byDataTest(attribute)).should('exist');
-    cy.get(byDataTest(attribute)).should('have.attr', 'type', 'button');
+    cy.get(byDataTest(attribute)).should('have.attr', 'type', 'submit');
   });
 
   it('displays error message when login fails', () => {
