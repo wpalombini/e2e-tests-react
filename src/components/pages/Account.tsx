@@ -1,6 +1,7 @@
 import { Button, createStyles, Grid, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
-import React, { FormEvent, Fragment, useContext } from 'react';
-import { NotificationType, UXContext, UXNotification } from '../../providers/UXProvider';
+import React, { Fragment, useContext } from 'react';
+import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { UXContext, UXNotification } from '../../providers/UXProvider';
 import Form from '../HOC/Form';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -16,13 +17,26 @@ const useStyles = makeStyles((theme: Theme) =>
   }),
 );
 
+interface IAccountDetailsFormData {
+  firstname: string;
+  surname: string;
+}
+
 const AccountPage: () => JSX.Element = (): JSX.Element => {
   const classes = useStyles();
 
   const { setIsLoading, setNotification } = useContext(UXContext);
 
-  const handleSave: (e: FormEvent) => void = (e: FormEvent): void => {
-    e.preventDefault();
+  const {
+    control,
+    formState: { errors, isDirty },
+    handleSubmit,
+  } = useForm<IAccountDetailsFormData>();
+
+  const saveHandler: SubmitHandler<IAccountDetailsFormData> = (data: IAccountDetailsFormData) => {
+    console.log('data is: ', data);
+
+    console.log('isDirty', isDirty);
 
     setIsLoading(true);
 
@@ -32,14 +46,6 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
       const notification = new UXNotification();
       notification.message = 'Account details saved';
 
-      // if (credentialsAreValid) {
-      //   notification.message = 'Account details saved';
-
-      // } else {
-      //   notification.message = 'An error occured saving account details';
-      //   notification.type = NotificationType.Error;
-      // }
-
       setNotification(notification);
     }, 2000);
   };
@@ -47,26 +53,50 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
   return (
     <Fragment>
       <h3 data-test="title-account-page">Account Details Page</h3>
-      <Form onSubmit={(e) => handleSave(e)} className={classes.root}>
+
+      <Form onSubmit={handleSubmit(saveHandler)} className={classes.root}>
         <Grid container justifyContent="center">
           <Grid item xs={12} md={8}>
             <Paper className={classes.paper}>
-              <TextField
-                type="text"
-                label="First name"
-                autoFocus={true}
-                fullWidth
-                variant="outlined"
-                inputProps={{ 'data-test': 'firstname-input-field' }}
+              <Controller
+                name="firstname"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    type="text"
+                    label="First name"
+                    error={!!errors.firstname}
+                    helperText={errors.firstname ? 'Invalid first name' : ''}
+                    fullWidth
+                    variant="outlined"
+                    inputProps={{ 'data-test': 'firstname-input-field' }}
+                  />
+                )}
               />
-              <TextField
-                type="text"
-                label="Surname"
-                fullWidth
-                variant="outlined"
-                inputProps={{ 'data-test': 'surname-input-field' }}
+
+              <Controller
+                name="surname"
+                control={control}
+                defaultValue=""
+                rules={{ required: true }}
+                render={({ field }) => (
+                  <TextField
+                    {...field}
+                    type="text"
+                    label="Surname"
+                    error={!!errors.surname}
+                    helperText={errors.surname ? 'Invalid surname name' : ''}
+                    fullWidth
+                    variant="outlined"
+                    inputProps={{ 'data-test': 'surname-input-field' }}
+                  />
+                )}
               />
-              <Button onClick={handleSave} type="submit" variant="outlined" data-test="save-button">
+
+              <Button type="submit" variant="outlined" data-test="save-button">
                 Save
               </Button>
             </Paper>
