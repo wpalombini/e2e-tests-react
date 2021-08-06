@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import MenuIcon from '@material-ui/icons/Menu';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { UXContext } from '../../providers/UXProvider';
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -28,12 +28,12 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
 
   const { isSideMenuOpen, setIsSideMenuOpen, isLoggedIn, setIsLoggedIn, setIsAuthenticationDialogOpen } =
     useContext(UXContext);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const handleAuth: () => void = (): void => {
     if (isLoggedIn) {
       setIsLoggedIn(false);
-      history.push('/');
+      navigate('/', { replace: true });
     } else {
       setIsAuthenticationDialogOpen(true);
     }

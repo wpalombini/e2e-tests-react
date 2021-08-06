@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { BrowserRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { Navigate, BrowserRouter as Router, Route, Routes } from 'react-router-dom';
 import './Layout.css';
 import AccountPage from '../pages/Account';
 import HomePage from '../pages/Home';
@@ -34,8 +34,8 @@ const Layout: () => JSX.Element = (): JSX.Element => {
         ) : undefined}
       </Snackbar>
       <Container maxWidth="md" className="container">
-        <Switch>
-          <Route exact path="/">
+        <Routes>
+          <Route path="/">
             <HomePage />
           </Route>
           <Route path="/about">
@@ -44,13 +44,11 @@ const Layout: () => JSX.Element = (): JSX.Element => {
           <Route path="/login">
             <LoginPage />
           </Route>
-          <PrivateRoute path="/private/account">
-            <AccountPage />
-          </PrivateRoute>
+          <PrivateRoute path="/private/account" component={AccountPage} />
           <Route path="*">
-            <Redirect to="/" />
+            <Navigate to="/" />
           </Route>
-        </Switch>
+        </Routes>
       </Container>
       <AuthenticationDialog isOpen={isAuthenticationDialogOpen} />
     </Router>

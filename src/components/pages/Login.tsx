@@ -1,21 +1,21 @@
 import React, { useContext } from 'react';
 import { useEffect } from 'react';
-import { useHistory, useLocation } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { UXContext } from '../../providers/UXProvider';
 
 const LoginPage: () => JSX.Element = (): JSX.Element => {
-  const history = useHistory();
+  const navigate = useNavigate();
   const location = useLocation();
 
   const { isLoggedIn, setIsAuthenticationDialogOpen } = useContext(UXContext);
 
-  const { from }: any = location.state || { from: { pathname: '/' } };
+  const { from }: any = location.state || { from: '/' };
 
   // If logged in, redirect away, otherwise
   // show authentication dialog on page load
   useEffect(() => {
     if (isLoggedIn) {
-      history.push('/');
+      navigate('/');
     } else {
       setIsAuthenticationDialogOpen(true);
     }
@@ -23,8 +23,10 @@ const LoginPage: () => JSX.Element = (): JSX.Element => {
 
   // redirect accordingly after a successful login
   useEffect(() => {
+    console.log(location);
+    console.log(from);
     if (isLoggedIn) {
-      history.replace(from);
+      navigate(from, { replace: true });
     }
   }, [isLoggedIn]);
 

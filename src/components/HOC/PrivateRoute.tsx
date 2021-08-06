@@ -1,5 +1,6 @@
 import React, { useContext } from 'react';
-import { Redirect, Route, RouteProps } from 'react-router-dom';
+import { RouteProps } from 'react-router';
+import { Navigate, Route } from 'react-router-dom';
 import { UXContext } from '../../providers/UXProvider';
 
 interface PrivateRouteProps extends RouteProps {
@@ -9,31 +10,15 @@ interface PrivateRouteProps extends RouteProps {
   children?: any;
 }
 const PrivateRoute: (props: PrivateRouteProps) => JSX.Element = (props: PrivateRouteProps): JSX.Element => {
-  const { component: Component, children, ...rest } = props;
-
   const { isLoggedIn } = useContext(UXContext);
 
-  return (
-    <Route
-      {...rest}
-      render={(routeProps) =>
-        isLoggedIn ? (
-          Component ? (
-            <Component {...routeProps} />
-          ) : (
-            children
-          )
-        ) : (
-          <Redirect
-            to={{
-              pathname: '/login',
-              state: { from: routeProps.location },
-            }}
-          />
-        )
-      }
-    />
-  );
+  const { component: Component, ...rest } = props;
+
+  if (isLoggedIn) {
+    return <Route path={props.path} element={<Component {...rest} />} />;
+  } else {
+    return <Navigate to="/login" state={{ from: props.path }} />;
+  }
 };
 
 export default PrivateRoute;
