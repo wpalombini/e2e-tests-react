@@ -23,8 +23,6 @@ const LoginPage: () => JSX.Element = (): JSX.Element => {
 
   // redirect accordingly after a successful login
   useEffect(() => {
-    console.log(location);
-    console.log(from);
     if (isLoggedIn) {
       navigate(from, { replace: true });
     }

@@ -29,14 +29,12 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
 
   const {
     control,
-    formState: { errors, isDirty },
+    formState: { errors, isDirty, isSubmitted },
     handleSubmit,
   } = useForm<IAccountDetailsFormData>();
 
   const saveHandler: SubmitHandler<IAccountDetailsFormData> = (data: IAccountDetailsFormData) => {
     console.log('data is: ', data);
-
-    console.log('isDirty', isDirty);
 
     setIsLoading(true);
 
@@ -54,7 +52,7 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
     <Fragment>
       <h3 data-test="title-account-page">Account Details Page</h3>
 
-      <Form onSubmit={handleSubmit(saveHandler)} className={classes.root}>
+      <Form preventNavigation={isDirty && !isSubmitted} onSubmit={handleSubmit(saveHandler)} className={classes.root}>
         <Grid container justifyContent="center">
           <Grid item xs={12} md={8}>
             <Paper className={classes.paper}>

@@ -76,7 +76,7 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
 
   return (
     <Dialog onClose={handleOnClose} open={props.isOpen}>
-      <Form onSubmit={(e) => handleLogin(e)} className={classes.root}>
+      <Form preventNavigation={false} onSubmit={(e) => handleLogin(e)} className={classes.root}>
         <Grid container>
           <Grid item>
             <Grid container>
