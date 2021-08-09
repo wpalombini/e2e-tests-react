@@ -1,6 +1,6 @@
 import { Button, createStyles, Grid, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
 import React, { Fragment, useContext } from 'react';
-import { Controller, SubmitHandler, useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { UXContext, UXNotification } from '../../providers/UXProvider';
 import Form from '../HOC/Form';
 
@@ -33,19 +33,27 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
     handleSubmit,
   } = useForm<IAccountDetailsFormData>();
 
-  const saveHandler: SubmitHandler<IAccountDetailsFormData> = (data: IAccountDetailsFormData) => {
+  const saveHandler = async (data: IAccountDetailsFormData) => {
+    const saveForm = (timeout: number) => {
+      return new Promise<void>((resolve) => {
+        setTimeout(() => {
+          resolve();
+        }, timeout);
+      });
+    };
+
     console.log('data is: ', data);
 
     setIsLoading(true);
 
-    setTimeout(() => {
-      setIsLoading(false);
+    await saveForm(2000);
 
-      const notification = new UXNotification();
-      notification.message = 'Account details saved';
+    setIsLoading(false);
 
-      setNotification(notification);
-    }, 2000);
+    const notification = new UXNotification();
+    notification.message = 'Account details saved';
+
+    setNotification(notification);
   };
 
   return (
