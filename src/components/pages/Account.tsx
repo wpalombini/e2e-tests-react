@@ -28,9 +28,9 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
   const { setIsLoading, setNotification } = useContext(UXContext);
 
   const {
-    control,
     formState: { errors, isDirty, isSubmitSuccessful },
     handleSubmit,
+    register,
   } = useForm<IAccountDetailsFormData>();
 
   const saveHandler = async (data: IAccountDetailsFormData) => {
@@ -68,42 +68,26 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
         <Grid container justifyContent="center">
           <Grid item xs={12} md={8}>
             <Paper className={classes.paper}>
-              <Controller
-                name="firstname"
-                control={control}
-                defaultValue=""
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    type="text"
-                    label="First name"
-                    error={!!errors.firstname}
-                    helperText={errors.firstname ? 'Invalid first name' : ''}
-                    fullWidth
-                    variant="outlined"
-                    inputProps={{ 'data-test': 'firstname-input-field' }}
-                  />
-                )}
+              <TextField
+                type="text"
+                label="First name"
+                error={!!errors.firstname}
+                helperText={errors.firstname ? 'Invalid first name' : ''}
+                fullWidth
+                variant="outlined"
+                inputProps={{ 'data-test': 'firstname-input-field' }}
+                {...register('firstname', { required: true })}
               />
 
-              <Controller
-                name="surname"
-                control={control}
-                defaultValue=""
-                rules={{ required: true }}
-                render={({ field }) => (
-                  <TextField
-                    {...field}
-                    type="text"
-                    label="Surname"
-                    error={!!errors.surname}
-                    helperText={errors.surname ? 'Invalid surname name' : ''}
-                    fullWidth
-                    variant="outlined"
-                    inputProps={{ 'data-test': 'surname-input-field' }}
-                  />
-                )}
+              <TextField
+                type="text"
+                label="Surname"
+                error={!!errors.surname}
+                helperText={errors.surname ? 'Invalid surname name' : ''}
+                fullWidth
+                variant="outlined"
+                inputProps={{ 'data-test': 'surname-input-field' }}
+                {...register('surname', { required: true })}
               />
 
               <Button type="submit" variant="outlined" data-test="save-button">
