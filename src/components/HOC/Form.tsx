@@ -2,10 +2,26 @@ import React, { FormEventHandler, ReactNode, useCallback, useEffect, useState } 
 import { useBlocker, useLocation, useNavigate } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Grid from '@material-ui/core/Grid';
+import { Typography } from '@material-ui/core';
+import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    container: {
+      padding: theme.spacing(3),
+      '& > *:not(:last-child)': {
+        marginBottom: theme.spacing(5),
+      },
+      '& button': {
+        minWidth: theme.spacing(10),
+      },
+      '& button:not(:last-child)': {
+        marginRight: theme.spacing(2),
+      },
+    },
+  }),
+);
 
 export interface IFormProps {
   children: ReactNode;
@@ -16,9 +32,12 @@ export interface IFormProps {
 
 interface IAlertDialog {
   isBlocking: boolean;
+  onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
 const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog): JSX.Element => {
+  const classes = useStyles();
+
   const useCallbackPrompt = (when: boolean) => {
     const navigate = useNavigate();
     const location = useLocation();
@@ -47,6 +66,12 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
       setConfirmedNavigation(true);
     };
 
+    const saveAndNavigate = async (e: any) => {
+      setShowPrompt(false);
+      await props.onSubmit(e);
+      setConfirmedNavigation(true);
+    };
+
     useEffect(() => {
       if (confirmedNavigation && lastLocation) {
         navigate(lastLocation.location.pathname);
@@ -55,27 +80,34 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
 
     useBlocker(handleBlockedNavigation, when);
 
-    return { showPrompt, cancelNavigation, confirmNavigation };
+    return { showPrompt, cancelNavigation, confirmNavigation, saveAndNavigate };
   };
 
   const obj = useCallbackPrompt(props.isBlocking);
 
   return (
     <Dialog open={obj.showPrompt}>
-      <DialogTitle id="alert-dialog-title">{'Unsaved Changes'}</DialogTitle>
-      <DialogContent>
-        <DialogContentText id="alert-dialog-description">
-          You have unsaved data. If you continue you will loose it. Continue?
-        </DialogContentText>
-      </DialogContent>
-      <DialogActions>
-        <Button onClick={obj.confirmNavigation} variant="outlined">
-          Yes
-        </Button>
-        <Button onClick={obj.cancelNavigation} variant="outlined">
-          Cancel
-        </Button>
-      </DialogActions>
+      <Grid justifyContent="center" container className={classes.container}>
+        <Grid item>
+          <Typography variant="h5">Unsaved Changes</Typography>
+        </Grid>
+        <Grid item>
+          <Typography variant="subtitle1">
+            You have unsaved data. Would you like to save it before continuing?
+          </Typography>
+        </Grid>
+        <Grid item>
+          <Button type="submit" onClick={(e) => obj.saveAndNavigate(e)} color="primary" variant="contained">
+            Yes
+          </Button>
+          <Button onClick={obj.confirmNavigation} color="secondary" variant="contained">
+            No
+          </Button>
+          <Button onClick={obj.cancelNavigation} variant="contained">
+            Cancel
+          </Button>
+        </Grid>
+      </Grid>
     </Dialog>
   );
 };
@@ -83,7 +115,7 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
 const Form: (props: IFormProps) => JSX.Element = (props: IFormProps): JSX.Element => {
   return (
     <form onSubmit={props.onSubmit} className={props.className} noValidate autoComplete="off">
-      <AlertDialog isBlocking={props.preventNavigation} />
+      <AlertDialog isBlocking={props.preventNavigation} onSubmit={props.onSubmit} />
       {props.children}
     </form>
   );

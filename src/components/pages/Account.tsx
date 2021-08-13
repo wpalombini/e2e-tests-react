@@ -1,6 +1,6 @@
 import { Button, createStyles, Grid, makeStyles, Paper, TextField, Theme } from '@material-ui/core';
 import React, { Fragment, useContext } from 'react';
-import { Controller, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { UXContext, UXNotification } from '../../providers/UXProvider';
 import Form from '../HOC/Form';
 

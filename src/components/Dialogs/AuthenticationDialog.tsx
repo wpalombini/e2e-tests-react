@@ -79,34 +79,30 @@ const LoginDialog: (props: IAuthenticationDialogProps) => JSX.Element = (
       <Form preventNavigation={false} onSubmit={(e) => handleLogin(e)} className={classes.root}>
         <Grid container>
           <Grid item>
-            <Grid container>
-              <Grid item>
-                <Paper className={classes.paper}>
-                  <TextField
-                    onChange={(e) => setEmail(e.target.value)}
-                    type="email"
-                    value={email}
-                    label="Email"
-                    autoFocus={true}
-                    fullWidth
-                    variant="outlined"
-                    inputProps={{ 'data-test': 'email-input-field' }}
-                  />
-                  <TextField
-                    onChange={(e) => setPassword(e.target.value)}
-                    type="password"
-                    value={password}
-                    label="Password"
-                    fullWidth
-                    variant="outlined"
-                    inputProps={{ 'data-test': 'password-input-field' }}
-                  />
-                  <Button onClick={handleLogin} type="submit" variant="outlined" data-test="login-button">
-                    Login
-                  </Button>
-                </Paper>
-              </Grid>
-            </Grid>
+            <Paper className={classes.paper}>
+              <TextField
+                onChange={(e) => setEmail(e.target.value)}
+                type="email"
+                value={email}
+                label="Email"
+                autoFocus={true}
+                fullWidth
+                variant="outlined"
+                inputProps={{ 'data-test': 'email-input-field' }}
+              />
+              <TextField
+                onChange={(e) => setPassword(e.target.value)}
+                type="password"
+                value={password}
+                label="Password"
+                fullWidth
+                variant="outlined"
+                inputProps={{ 'data-test': 'password-input-field' }}
+              />
+              <Button onClick={handleLogin} type="submit" variant="outlined" data-test="login-button">
+                Login
+              </Button>
+            </Paper>
           </Grid>
         </Grid>
       </Form>
