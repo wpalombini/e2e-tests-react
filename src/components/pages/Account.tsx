@@ -64,6 +64,7 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
         preventNavigation={isDirty && !isSubmitSuccessful}
         onSubmit={handleSubmit(saveHandler)}
         className={classes.root}
+        dataProps={{ 'data-test': 'account-form' }}
       >
         <Grid container justifyContent="center">
           <Grid item xs={12} md={8}>
@@ -90,7 +91,7 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
                 {...register('surname', { required: true })}
               />
 
-              <Button type="submit" variant="outlined" data-test="save-button">
+              <Button type="submit" variant="outlined" data-test="account-save-button">
                 Save
               </Button>
             </Paper>

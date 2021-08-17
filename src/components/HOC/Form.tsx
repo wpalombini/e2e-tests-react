@@ -26,6 +26,7 @@ const useStyles = makeStyles((theme: Theme) =>
 export interface IFormProps {
   children: ReactNode;
   className?: string;
+  dataProps?: any;
   preventNavigation: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
@@ -114,7 +115,7 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
 
 const Form: (props: IFormProps) => JSX.Element = (props: IFormProps): JSX.Element => {
   return (
-    <form onSubmit={props.onSubmit} className={props.className} noValidate autoComplete="off">
+    <form onSubmit={props.onSubmit} className={props.className} noValidate autoComplete="off" {...props.dataProps}>
       <AlertDialog isBlocking={props.preventNavigation} onSubmit={props.onSubmit} />
       {props.children}
     </form>

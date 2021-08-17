@@ -33,3 +33,11 @@ Cypress.Commands.add('login', (email, password) => {
   cy.get(byDataTest('password-input-field')).type(password);
   cy.get(byDataTest('login-button')).click();
 });
+
+Cypress.Commands.add('navigateToAccountPage', (email, password) => {
+  cy.login(email, password);
+
+  cy.get(byDataTest('side-menu-button')).click();
+
+  cy.get(byDataTest('side-menu-link-account')).click();
+});
