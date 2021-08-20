@@ -54,7 +54,9 @@ const NavBar: () => JSX.Element = (): JSX.Element => {
             <MenuIcon />
           </IconButton>
           <Typography variant="h6" className={classes.title}>
-            <Link to="/">e2e Tests App</Link>
+            <Link to="/" data-test="navbar-home-link">
+              e2e Tests App
+            </Link>
           </Typography>
           <Button onClick={handleAuth} color="inherit" variant="outlined" data-test="navbar-login-button">
             {isLoggedIn ? 'Logout' : 'Login'}

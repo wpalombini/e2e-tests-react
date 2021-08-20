@@ -88,7 +88,7 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
 
   return (
     <Dialog open={obj.showPrompt}>
-      <Grid justifyContent="center" container className={classes.container}>
+      <Grid justifyContent="center" container className={classes.container} data-test="unsaved-changes-modal">
         <Grid item>
           <Typography variant="h5">Unsaved Changes</Typography>
         </Grid>
@@ -98,13 +98,24 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
           </Typography>
         </Grid>
         <Grid item>
-          <Button type="submit" onClick={(e) => obj.saveAndNavigate(e)} color="primary" variant="contained">
+          <Button
+            type="submit"
+            onClick={(e) => obj.saveAndNavigate(e)}
+            color="primary"
+            variant="contained"
+            data-test="unsaved-data-yes-button"
+          >
             Yes
           </Button>
-          <Button onClick={obj.confirmNavigation} color="secondary" variant="contained">
+          <Button
+            onClick={obj.confirmNavigation}
+            color="secondary"
+            variant="contained"
+            data-test="unsaved-data-no-button"
+          >
             No
           </Button>
-          <Button onClick={obj.cancelNavigation} variant="contained">
+          <Button onClick={obj.cancelNavigation} variant="contained" data-test="unsaved-data-cancel-button">
             Cancel
           </Button>
         </Grid>
