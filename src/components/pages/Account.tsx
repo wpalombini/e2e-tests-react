@@ -59,11 +59,11 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
   return (
     <Fragment>
       <h3 data-test="title-account-page">Account Details Page</h3>
-
       <Form
         preventNavigation={isDirty && !isSubmitSuccessful}
         onSubmit={handleSubmit(saveHandler)}
         className={classes.root}
+        hasErrors={errors && Object.keys(errors).length > 0}
         dataProps={{ 'data-test': 'account-form' }}
       >
         <Grid container justifyContent="center">

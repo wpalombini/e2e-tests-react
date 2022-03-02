@@ -148,4 +148,8 @@ describe('Account Page', () => {
 
     cy.get(byDataTest('title-home-page')).should('have.text', 'Home Page');
   });
+
+  it('closes unsaved data modal, stays on the current page and display form validation when the Yes button is pressed and the form is invalid', () => {
+    // TODO
+  });
 });
