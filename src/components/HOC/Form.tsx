@@ -27,14 +27,14 @@ export interface IFormProps {
   children: ReactNode;
   className?: string;
   dataProps?: any;
-  hasErrors: boolean;
+  isValid: boolean;
   preventNavigation: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
 interface IAlertDialog {
   isBlocking: boolean;
-  hasErrors: boolean;
+  isValid: boolean;
   onSubmit: FormEventHandler<HTMLFormElement>;
 }
 
@@ -72,10 +72,11 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
     const saveAndNavigate = async (e: any) => {
       setShowPrompt(false);
 
-      // Even if the form has errors, we want to call onSubmit in order to trigger validation
+      // Even if the form is invalid, we want to call onSubmit in order to trigger validation
       // and display error messages.
       await props.onSubmit(e);
-      if (!props.hasErrors) {
+
+      if (props.isValid) {
         setConfirmedNavigation(true);
       }
     };
@@ -134,7 +135,7 @@ const AlertDialog: (props: IAlertDialog) => JSX.Element = (props: IAlertDialog):
 const Form: (props: IFormProps) => JSX.Element = (props: IFormProps): JSX.Element => {
   return (
     <form onSubmit={props.onSubmit} className={props.className} noValidate autoComplete="off" {...props.dataProps}>
-      <AlertDialog isBlocking={props.preventNavigation} hasErrors={props.hasErrors} onSubmit={props.onSubmit} />
+      <AlertDialog isBlocking={props.preventNavigation} isValid={props.isValid} onSubmit={props.onSubmit} />
       {props.children}
     </form>
   );

@@ -28,10 +28,10 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
   const { setIsLoading, setNotification } = useContext(UXContext);
 
   const {
-    formState: { errors, isDirty, isSubmitSuccessful },
+    formState: { errors, isDirty, isSubmitSuccessful, isValid },
     handleSubmit,
     register,
-  } = useForm<IAccountDetailsFormData>();
+  } = useForm<IAccountDetailsFormData>({ mode: 'onBlur' });
 
   const saveHandler = async (data: IAccountDetailsFormData) => {
     const saveForm = (timeout: number) => {
@@ -63,7 +63,7 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
         preventNavigation={isDirty && !isSubmitSuccessful}
         onSubmit={handleSubmit(saveHandler)}
         className={classes.root}
-        hasErrors={errors && Object.keys(errors).length > 0}
+        isValid={isValid}
         dataProps={{ 'data-test': 'account-form' }}
       >
         <Grid container justifyContent="center">
@@ -84,7 +84,7 @@ const AccountPage: () => JSX.Element = (): JSX.Element => {
                 type="text"
                 label="Surname"
                 error={!!errors.surname}
-                helperText={errors.surname ? 'Invalid surname name' : ''}
+                helperText={errors.surname ? 'Invalid surname' : ''}
                 fullWidth
                 variant="outlined"
                 inputProps={{ 'data-test': 'surname-input-field' }}

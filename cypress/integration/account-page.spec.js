@@ -150,6 +150,25 @@ describe('Account Page', () => {
   });
 
   it('closes unsaved data modal, stays on the current page and display form validation when the Yes button is pressed and the form is invalid', () => {
-    // TODO
+    cy.navigateToAccountPage(loginTestData.email, loginTestData.password);
+
+    cy.get(byDataTest('firstname-input-field')).type('first name test');
+    // leave surname field blank
+
+    cy.get(byDataTest('navbar-home-link')).click();
+
+    cy.get(byDataTest('unsaved-changes-modal')).should('exist');
+
+    cy.get(byDataTest('unsaved-data-yes-button')).click();
+
+    cy.get(byDataTest('unsaved-changes-modal')).should('not.exist');
+
+    cy.get(byDataTest('loading-bar')).should('not.exist');
+
+    cy.get(byDataTest('account-form')).should('contain.text', 'Invalid surname');
+
+    cy.url().should('equal', 'http://localhost:3000/private/account');
+
+    cy.get(byDataTest('title-account-page')).should('have.text', 'Account Details Page');
   });
 });
